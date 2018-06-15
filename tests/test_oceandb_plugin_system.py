@@ -23,4 +23,12 @@ def test_oceandb_expcects_subclassed_plugin():
     with raises(TypeError):
         AbstractPlugin(plugin)
 
+def test_oceandb_using_mongo_plugin():
+    from oceandb_plugin_system.oceandb import OceanDb
+    from oceandb_plugin_system.utils import parse_config
+
+    conf = parse_config('../config/oceandb_plugin_system.ini')
+    oceandb = OceanDb(conf)
+    assert oceandb.plugin.type == "MongoDB"
+
 

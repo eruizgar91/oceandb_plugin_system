@@ -1,8 +1,7 @@
-from plugins.mongo import plugin
 import configparser
 import argparse
-import pprint
-import os
+import importlib.util
+from oceandb_plugin_system.constants import CONFIG_OPTION
 
 
 def parse_args():
@@ -13,9 +12,6 @@ def parse_args():
 
     args = parser.parse_args()
     return args
-
-
-CONFIG_OPTION = 'oceandb'
 
 
 def parse_config(file_path):
@@ -35,21 +31,20 @@ def parse_config(file_path):
     return plugin_config
 
 
-def main():
-    args = parse_args()
-    config = parse_config(args.config)
-    app = plugin.Plugin(config)
-    print(app.type)
-    # print(app.read(1))
-    app.write({"id": 2})
-    for doc in app.list():
-        pprint.pprint(doc)
-    print('_________________')
-    app.delete(2)
-    for doc in app.list():
-        pprint.pprint(doc)
-    return app
+def start_plugin(config):
+    """This function initialize the Ocean plugin"""
+    plugin_instance = load_plugin(config)
+    return plugin_instance(config)
 
 
-if __name__ == '__main__':
-    app = main()
+def load_plugin(config):
+    module = config['module']
+    module_path = "../plugins/%s/plugin.py" % module
+    spec = importlib.util.spec_from_file_location("plugin.py", module_path)
+    foo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(foo)
+    return foo.Plugin
+
+def print_help():
+    """Print the default help in stdout"""
+    pass

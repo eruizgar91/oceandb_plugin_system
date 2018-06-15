@@ -3,10 +3,7 @@ from oceandb_plugin_system.plugin import AbstractPlugin
 from plugins.mongo.instance import get_database_instance
 
 
-_DB_INSTANCE = None
-
-
-class Mongo(AbstractPlugin):
+class Plugin(AbstractPlugin):
     """Mongo ledger plugin for `Ocean DB's Python reference
     implementation <https://github.com/oceanprotocol/oceandb_plugin_system>`_.
     Plugs in a MongoDB instance as the persistence layer for Ocean Db
