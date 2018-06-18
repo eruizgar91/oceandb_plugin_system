@@ -17,9 +17,4 @@ class OceanDb:
     """
     def __init__(self, conf):
         self.conf = conf
-        self.plugin = start_plugin(conf)
-
-
-    # def start_plugin(self):
-    #     """This function initialize the Ocean plugin"""
-    #     return start_plugin(self.conf)
+        self.plugin = start_plugin()

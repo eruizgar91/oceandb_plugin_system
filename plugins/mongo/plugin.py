@@ -30,7 +30,8 @@ class Plugin(AbstractPlugin):
         return self.driver.instance.find_one({"id": id})
 
     def update(self, id, obj):
-        return self.driver.instance.update(obj)
+        prev = self.read(id)
+        return self.driver.instance.replace_one(prev, obj)
 
     def delete(self, id):
         return self.driver.instance.delete_one({"id": id})
